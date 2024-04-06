@@ -86,11 +86,12 @@ class Field(CalcCoords):
 
         for row, col in self.lst_flags:
             game.bursts.lst.append(Burst(self[row][col].x, self[row][col].y))
-            game.sound_explosion.play()
+            # game.sound_explosion.play()
             self.lst_to_check.update(self[row][col].get_neighbors(game.field))
             self[row][col] = None
 
             game.game_screen.draw()
+        game.sound_explosion.play()
         game.points += len(self.lst_flags)
         self.lst_flags.clear()
         self.timer_seek = 1

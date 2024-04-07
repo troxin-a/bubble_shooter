@@ -86,12 +86,11 @@ class Field(CalcCoords):
 
         for row, col in self.lst_flags:
             game.bursts.lst.append(Burst(self[row][col].x, self[row][col].y))
-            # game.sound_explosion.play()
             self.lst_to_check.update(self[row][col].get_neighbors(game.field))
             self[row][col] = None
-
             game.game_screen.draw()
-        game.sound_explosion.play()
+
+        game.sound_explosion.play()  # Воспроизводим звук взрыва, если он есть
         game.points += len(self.lst_flags)
         self.lst_flags.clear()
         self.timer_seek = 1
@@ -99,6 +98,7 @@ class Field(CalcCoords):
     def reset_free_ball(self, game):
         temp = set()
         temp.update(self.lst_to_check)
+        get_sound = False
 
         for _ in range(15):
             self.lst_to_check.update(temp)
@@ -108,16 +108,19 @@ class Field(CalcCoords):
                     ball_x = self[row][col].x
                     ball_y = self[row][col].y
                     game.bursts.lst.append(Burst(ball_x, ball_y))
-                    game.sound_explosion.play()
+                    get_sound = True
                     temp.update(self[row][col].get_neighbors(game.field))
                     self[row][col] = None
                     game.points += 2
             self.lst_to_check.clear()
 
+        # Воспроизводим звук ДОПОЛНИТЕЛЬНОГО взрыва, если он есть
+        if get_sound:
+            game.sound_explosion.play()
+
     def is_free_ball(self, field, row, col):
         """
         Проверяет свободен ли шар из списка.
-        Не спрашивай почему работает. Я не знаю :)
         """
         find_neighbors(field=field, row=row, col=col, lst=self.lst_flags, prichina="free_ball")
         for coord_i, coord_j in self.lst_flags:

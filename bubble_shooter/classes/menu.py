@@ -38,7 +38,8 @@ class Button:
         self.rect = pygame.rect.Rect(padding_x, padding_y, 247, 62)
         self.text_color = "black"
 
-        self.btn_text = pygame.font.SysFont('Arial Black', 30)
+        path_to_font = os.path.join("src", "ariblk.ttf")
+        self.btn_text = pygame.font.Font(path_to_font, 30)
         self.text_btn = self.btn_text.render(self.text, False, self.text_color)
         self.on_click = on_click
 

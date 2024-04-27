@@ -65,7 +65,8 @@ class DrawPlay(DrawScreen):
 
 
 class DrawGameOver(DrawScreen):
-    text = pygame.font.SysFont('Arial Black', 90)
+    path_to_font = os.path.join("src", "ariblk.ttf")
+    text = pygame.font.Font(path_to_font, 90)
     text_game_over = text.render("ПОТРАЧЕНО", False, "white")
 
     @staticmethod
@@ -128,7 +129,8 @@ class Game:
         self.status = "play"
         self.count_shuts = SHUTS
         self.points = 0
-        self.text = pygame.font.SysFont('Comic Sans MS', 60)
+        path_to_font = os.path.join("src", "arial.ttf")
+        self.text = pygame.font.Font(path_to_font, 60)
         self.sound_explosion = sounds_wav["explosion"]
 
     def create_menu(self):
